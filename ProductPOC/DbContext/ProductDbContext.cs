@@ -7,14 +7,23 @@ namespace ProductPOC.DbContext
     public class ProductDbContext:IProductDbContext
     {
         private readonly IMongoDatabase _database;
+        private readonly string _productsCollectionName;
+
+        public ProductDbContext()
+        {
+
+        }
         public ProductDbContext(IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("MongoDb");
-           var client = new MongoClient(connectionString);
-           _database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+            var connectionString = configuration["ConnectionStrings:MongoDb"];
+            var databaseName = configuration["ConnectionStrings:DatabaseName"];
+            _productsCollectionName = configuration["ConnectionStrings:ProductsCollectionName"];
+            var client = new MongoClient(connectionString);
+           _database = client.GetDatabase(databaseName);
+            
         }
         
 
-        public IMongoCollection<Product> Products => _database.GetCollection<Product>("Products");
+        public virtual IMongoCollection<Product> Products => _database.GetCollection<Product>(_productsCollectionName);
 }
 }

@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Configuration;
 using ProductPOC.DbContext;
+using ProductPOC.Mappings;
 using ProductPOC.Repository;
 using ProductPOC.Service;
 
@@ -15,6 +17,7 @@ builder.Services.AddSingleton<ProductDbContext>();
 // Dependency injection for repositories and services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 

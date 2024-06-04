@@ -13,5 +13,13 @@ namespace ProductPOC.Repository
         }
         public async Task<IEnumerable<Product>> GetAllAsync() =>
            await _products.Find(p => true).ToListAsync();
+
+        public async Task<Product> GetByIdAsync(string id)
+        {
+            return await _products.Find(x=>x.Id==id).FirstOrDefaultAsync();
+        }
+         
+
+        
     }
 }

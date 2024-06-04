@@ -14,5 +14,10 @@ namespace ProductPOC.Service
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync() =>
            await _productRepository.GetAllAsync();
+
+        public async Task<Product> GetByIdProductAsync(string id)
+        {
+           return await _productRepository.GetByIdAsync(id);
+        }
     }
 }

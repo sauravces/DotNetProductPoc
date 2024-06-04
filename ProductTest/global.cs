@@ -1,0 +1,11 @@
+﻿global using Moq;
+global using ProductPOC.Models;
+global using ProductPOC.Service;
+global using ProductPOC.Controllers;
+global using FluentAssertions;
+global using Microsoft.AspNetCore.Mvc;
+global using ProductPOC.Dto;
+global using AutoMapper;
+global using MongoDB.Driver;
+global using ProductPOC.DbContext;
+global using ProductPOC.Repository;
