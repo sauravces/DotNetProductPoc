@@ -6,8 +6,8 @@ namespace ProductPOC.Models
     public class Product
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid Id { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }

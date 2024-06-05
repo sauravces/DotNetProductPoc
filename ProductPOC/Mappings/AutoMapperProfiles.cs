@@ -8,6 +8,8 @@ namespace ProductPOC.Mappings
         public AutoMapperProfiles()
         {
             CreateMap<Product,ProductDto>().ReverseMap();
+            CreateMap<Product,CreateProductDto>().ReverseMap();
+            CreateMap<Product,UpdateProductDto>().ReverseMap();
         }
 
     }

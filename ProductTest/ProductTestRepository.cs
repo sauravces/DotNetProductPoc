@@ -5,12 +5,14 @@
         private readonly Mock<IMongoCollection<Product>> _mockCollection;
         private readonly Mock<IAsyncCursor<Product>> _mockCursor;
         private readonly Mock<ProductDbContext> _mockContext;
-
+        private readonly ProductRepository _repository;
         public ProductTestRepository()
         {
             _mockCollection = new Mock<IMongoCollection<Product>>();
             _mockCursor = new Mock<IAsyncCursor<Product>>();
             _mockContext = new Mock<ProductDbContext>();
+            _mockContext.Setup(x => x.Products).Returns(_mockCollection.Object);
+            _repository = new ProductRepository(_mockContext.Object);
         }
 
         [Fact]
@@ -19,8 +21,8 @@
             // Arrange
             var products = new List<Product>
             {
-                new Product { Id = "1", Name = "Product1", Description = "Description1", Price = 10 },
-                new Product { Id = "2", Name = "Product2", Description = "Description2", Price = 20 }
+                new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 10 },
+                new Product { Id =Guid.NewGuid(), Name = "Product2", Description = "Description2", Price = 20 }
             };
             _mockCursor.SetupSequence(_ => _.MoveNextAsync(default))
                       .ReturnsAsync(true)
@@ -32,9 +34,8 @@
                 default))
                 .ReturnsAsync(_mockCursor.Object);
             _mockContext.Setup(x => x.Products).Returns(_mockCollection.Object);
-            var repository = new ProductRepository(_mockContext.Object);
             // Act
-            var result = await repository.GetAllAsync();
+            var result = await _repository.GetAllAsync();
             // Assert
             result.Should().BeEquivalentTo(products, options => options.ComparingByMembers<Product>());
         }
@@ -43,22 +44,25 @@
         public async Task GetByIdAsyncReturnsProduct()
         {
             // Arrange
-            var productId = "665de04a0539588a315a45d1";
+            var productId = Guid.NewGuid();
             var expectedProduct = new Product
             {
-                Id = "665de04a0539588a315a45d1",
+                Id = Guid.NewGuid(),
                 Name = "Product1",
                 Description = "Description1",
                 Price = 10
             };
-            _mockCursor.SetupSequence(_ => _.MoveNextAsync(default))
-                      .ReturnsAsync(true)
-                      .ReturnsAsync(false);
-            _mockCursor.Setup(_ => _.Current).Returns(() => expectedProduct);
+            _mockCursor.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
+                       .Returns(true)
+                       .Returns(false);
+            _mockCursor.SetupSequence(_ => _.MoveNextAsync(It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(true)
+                    .ReturnsAsync(false);
+            _mockCursor.Setup(_ => _.Current).Returns(new List<Product> { expectedProduct });
             _mockCollection.Setup(x => x.FindAsync(
                 It.IsAny<FilterDefinition<Product>>(),
                 It.IsAny<FindOptions<Product, Product>>(),
-                default))
+                It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_mockCursor.Object);
             _mockContext.Setup(x => x.Products).Returns(_mockCollection.Object);
             var repository = new ProductRepository(_mockContext.Object);
@@ -66,13 +70,13 @@
             var result = await repository.GetByIdAsync(productId);
             // Assert
             result.Should().BeEquivalentTo(expectedProduct, options => options.ComparingByMembers<Product>());
-        }
+         }
 
         [Fact]
         public async Task GetByIdAsyncShouldReturnNullWhenInvalidId()
         {
             // Arrange
-            var invalidProductId = "invalid_id";
+            var invalidProductId =Guid.NewGuid();
             _mockCursor.SetupSequence(_ => _.MoveNextAsync(default))
                       .ReturnsAsync(false);
             _mockCollection.Setup(x => x.FindAsync(
@@ -81,11 +85,104 @@
                 default))
                 .ReturnsAsync(_mockCursor.Object);
             _mockContext.Setup(x => x.Products).Returns(_mockCollection.Object);
-            var repository = new ProductRepository(_mockContext.Object);
             // Act
-            var result = await repository.GetByIdAsync(invalidProductId);
+            var result = await _repository.GetByIdAsync(invalidProductId);
             // Assert
             result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task CreateAsyncShouldInsertProductAndReturnProduct()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Id = Guid.NewGuid(),
+                Name = "Product1",
+                Description = "Description1",
+                Price = 10
+            };
+            _mockCollection.Setup(x => x.InsertOneAsync(product, null, default)).Returns(Task.CompletedTask);
+            // Act
+            var result = await _repository.CreateAsync(product);
+            // Assert
+            result.Should().BeEquivalentTo(product);
+            _mockCollection.Verify(x => x.InsertOneAsync(product, null, default), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateAsyncShouldReturnUpdatedProduct()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            var product = new Product
+            {
+                Id = productId,
+                Name = "UpdatedProduct",
+                Description = "UpdatedDescription",
+                Price = 20
+            };
+            var existingProduct = new Product
+            {
+                Id = productId,
+                Name = "OldProduct",
+                Description = "OldDescription",
+                Price = 10
+            };
+            _mockCursor.SetupSequence(_ => _.MoveNextAsync(default))
+                       .ReturnsAsync(true)
+                       .ReturnsAsync(false);
+            _mockCursor.Setup(_ => _.Current).Returns(new List<Product> { existingProduct });
+            _mockCollection.Setup(x => x.FindAsync(
+                It.IsAny<FilterDefinition<Product>>(),
+                It.IsAny<FindOptions<Product, Product>>(),
+                default))
+                .ReturnsAsync(_mockCursor.Object);
+            _mockCollection.Setup(x => x.ReplaceOneAsync(
+                It.IsAny<FilterDefinition<Product>>(),
+                It.IsAny<Product>(),
+                It.IsAny<ReplaceOptions>(),
+                default))
+                .ReturnsAsync(new ReplaceOneResult.Acknowledged(1, 1, null));
+            // Act
+            var result = await _repository.UpdateAsync(productId, product);
+            // Assert
+            result.Should().BeEquivalentTo(product);
+            _mockCollection.Verify(x => x.ReplaceOneAsync(
+                It.IsAny<FilterDefinition<Product>>(),
+                It.IsAny<Product>(),
+                It.IsAny<ReplaceOptions>(),
+                default), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateAsyncShouldReturnNullWhenProductNotFound()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            var product = new Product
+            {
+                Id = productId,
+                Name = "UpdatedProduct",
+                Description = "UpdatedDescription",
+                Price = 20
+            };
+            _mockCursor.SetupSequence(_ => _.MoveNextAsync(default))
+                       .ReturnsAsync(false);
+            _mockCollection.Setup(x => x.FindAsync(
+                It.IsAny<FilterDefinition<Product>>(),
+                It.IsAny<FindOptions<Product, Product>>(),
+                default))
+                .ReturnsAsync(_mockCursor.Object);
+            // Act
+            var result = await _repository.UpdateAsync(productId, product);
+            // Assert
+            result.Should().BeNull();
+            _mockCollection.Verify(x => x.ReplaceOneAsync(
+                It.IsAny<FilterDefinition<Product>>(),
+                It.IsAny<Product>(),
+                It.IsAny<ReplaceOptions>(),
+                default), Times.Never);
         }
     }
 }

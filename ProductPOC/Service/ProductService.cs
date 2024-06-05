@@ -12,12 +12,28 @@ namespace ProductPOC.Service
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync() =>
-           await _productRepository.GetAllAsync();
+        public async Task<Product> CreateProductAsync(Product product)
+        {
+            if(product.Id == Guid.Empty)
+            {
+                product.Id = Guid.NewGuid();
+            }
+           return await _productRepository.CreateAsync(product);
+        }
 
-        public async Task<Product> GetByIdProductAsync(string id)
+        public async Task<IEnumerable<Product>> GetAllProductsAsync() 
+        {
+          return  await _productRepository.GetAllAsync();
+        }
+          
+        public async Task<Product> GetByIdProductAsync(Guid id)
         {
            return await _productRepository.GetByIdAsync(id);
+        }
+
+        public async Task<Product> UpdateProductAsync(Guid id, Product product)
+        {
+            return await _productRepository.UpdateAsync(id, product);
         }
     }
 }
