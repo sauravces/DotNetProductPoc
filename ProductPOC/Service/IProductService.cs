@@ -8,5 +8,7 @@ namespace ProductPOC.Service
         Task<Product> GetByIdProductAsync(Guid id);
         Task<Product> CreateProductAsync(Product product);
         Task<Product> UpdateProductAsync(Guid id,Product product);
+        Task<Product> DeleteByIdProductAsync(Guid id);
+        Task DeleleAllProductAsync();
     }
 }

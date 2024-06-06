@@ -26,7 +26,7 @@ namespace ProductPOC.Repository
             return await _products.Find(x=>x.Id==id).FirstOrDefaultAsync();
         }
 
-        public async Task<Product> UpdateAsync(Guid id, Product product)
+        public async Task<Product?> UpdateAsync(Guid id, Product product)
         {
             var existingProduct = await _products.Find(x => x.Id == id).FirstOrDefaultAsync();
             if (existingProduct == null)
@@ -40,5 +40,20 @@ namespace ProductPOC.Repository
             return existingProduct;
         }
 
+        public async Task<Product?> DeleteByIdAsync(Guid id)
+        {
+            var product = await _products.Find(x => x.Id == id).FirstOrDefaultAsync();
+            if (product == null)
+            {
+                return null;
+            }
+            await _products.DeleteOneAsync(x => x.Id == id);
+            return product;
+        }
+
+        public async Task DeleteAsync()
+        {
+           await _products.DeleteManyAsync(FilterDefinition<Product>.Empty);
+        }
     }
 }

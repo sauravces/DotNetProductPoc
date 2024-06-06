@@ -35,5 +35,15 @@ namespace ProductPOC.Service
         {
             return await _productRepository.UpdateAsync(id, product);
         }
+
+        public async Task<Product> DeleteByIdProductAsync(Guid id)
+        {
+            return await _productRepository.DeleteByIdAsync(id);
+        }
+
+        public async Task DeleleAllProductAsync()
+        {
+            await _productRepository.DeleteAsync();
+        }
     }
 }

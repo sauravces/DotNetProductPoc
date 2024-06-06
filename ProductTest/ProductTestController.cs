@@ -118,5 +118,45 @@
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().BeEquivalentTo(updatedProductDto);
         }
+
+        [Fact]
+        public async Task DeleteByIdProductAsyncReturnsOkWhenProductIsDeleted()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            var product = new Product { Id = productId, Name = "Product1", Description = "Description1", Price = 10 };
+            _productServiceMock.Setup(x => x.DeleteByIdProductAsync(productId)).ReturnsAsync(product);
+            // Act
+            var result = await _controller.DeleteByIdProductAsync(productId) as OkObjectResult;
+            // Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(200);
+            result.Value.Should().BeEquivalentTo(product);
+        }
+
+        [Fact]
+        public async Task DeleteByIdProductAsyncReturnsNotFoundWhenProductDoesNotExist()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            _productServiceMock.Setup(x => x.DeleteByIdProductAsync(productId)).ReturnsAsync((Product)null);
+            // Act
+            var result = await _controller.DeleteByIdProductAsync(productId) as NotFoundResult;
+            // Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(404);
+        }
+
+        [Fact]
+        public async Task DeleteAllProductsAsyncReturnsNoContent()
+        {
+            // Arrange
+            _productServiceMock.Setup(service => service.DeleleAllProductAsync())
+                        .Returns(Task.CompletedTask);
+            // Act
+            var result = await _controller.DeleteAllProductAsync();
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+        }
     }
 }

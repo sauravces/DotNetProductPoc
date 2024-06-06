@@ -32,6 +32,10 @@ namespace ProductPOC.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetByIdProductAsync([FromRoute] Guid id)
         {
             var product = await _productService.GetByIdProductAsync(id);
+            if (product == null) 
+            {
+                return NotFound();
+            }
             var productDtos = _mapper.Map<ProductDto>(product);
             return Ok(productDtos);
         }
@@ -57,6 +61,25 @@ namespace ProductPOC.Controllers
             }
             var productDto = _mapper.Map<ProductDto>(product);
             return Ok(productDto);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteByIdProductAsync([FromRoute] Guid id)
+        {
+            var product = await _productService.DeleteByIdProductAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAllProductAsync()
+        {
+             await _productService.DeleleAllProductAsync();
+             return NoContent();
         }
     }
 }

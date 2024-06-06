@@ -72,5 +72,44 @@
             result.Should().BeEquivalentTo(product, options => options.ComparingByMembers<Product>());
             _productRepositoryMock.Verify(repo => repo.UpdateAsync(productId, It.IsAny<Product>()), Times.Once);
         }
+
+        [Fact]
+        public async Task DeleteByIdProductAsyncShouldReturnDeletedProductWhenProductExists()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            var product = new Product { Id = productId, Name = "Product1", Description = "Description1", Price = 10 };
+            _productRepositoryMock.Setup(repo => repo.DeleteByIdAsync(productId)).ReturnsAsync(product);
+            // Act
+            var result = await _productService.DeleteByIdProductAsync(productId);
+            // Assert
+            result.Should().BeEquivalentTo(product);
+            _productRepositoryMock.Verify(repo => repo.DeleteByIdAsync(productId), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteByIdProductAsyncShouldReturnNullWhenProductDoesNotExist()
+        {
+            // Arrange
+            var productId = Guid.NewGuid();
+            _productRepositoryMock.Setup(repo => repo.DeleteByIdAsync(productId)).ReturnsAsync((Product)null);
+            // Act
+            var result = await _productService.DeleteByIdProductAsync(productId);
+            // Assert
+            result.Should().BeNull();
+            _productRepositoryMock.Verify(repo => repo.DeleteByIdAsync(productId), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteAllProductAsyncShouldDeleteAllProducts()
+        {
+            // Arrange
+            _productRepositoryMock.Setup(repo => repo.DeleteAsync()).Returns(Task.CompletedTask);
+            // Act
+            await _productService.DeleleAllProductAsync();
+            // Assert
+            _productRepositoryMock.Verify(repo => repo.DeleteAsync(), Times.Once);
+        }
+
     }
-    }
+}
