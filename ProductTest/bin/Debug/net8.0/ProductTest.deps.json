@@ -9,6 +9,8 @@
       "ProductTest/1.0.0": {
         "dependencies": {
           "AutoFixture": "4.18.1",
+          "AutoFixture.AutoMoq": "4.18.1",
+          "AutoFixture.Xunit2": "4.18.1",
           "FluentAssertions": "6.12.0",
           "FluentValidation": "11.9.1",
           "Microsoft.NET.Test.Sdk": "17.8.0",
@@ -29,6 +31,30 @@
         },
         "runtime": {
           "lib/netstandard2.0/AutoFixture.dll": {
+            "assemblyVersion": "4.18.0.0",
+            "fileVersion": "4.18.1.694"
+          }
+        }
+      },
+      "AutoFixture.AutoMoq/4.18.1": {
+        "dependencies": {
+          "AutoFixture": "4.18.1",
+          "Moq": "4.20.70"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoFixture.AutoMoq.dll": {
+            "assemblyVersion": "4.18.0.0",
+            "fileVersion": "4.18.1.694"
+          }
+        }
+      },
+      "AutoFixture.Xunit2/4.18.1": {
+        "dependencies": {
+          "AutoFixture": "4.18.1",
+          "xunit.extensibility.core": "2.5.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoFixture.Xunit2.dll": {
             "assemblyVersion": "4.18.0.0",
             "fileVersion": "4.18.1.694"
           }
@@ -1363,6 +1389,20 @@
       "sha512": "sha512-BmWZDY4fkrYOyd5/CTBOeXbzsNwV8kI4kDi/Ty1Y5F+WDHBVKxzfWlBE4RSicvZ+EOi2XDaN5uwdrHsItLW6Kw==",
       "path": "autofixture/4.18.1",
       "hashPath": "autofixture.4.18.1.nupkg.sha512"
+    },
+    "AutoFixture.AutoMoq/4.18.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5mG4BdhamHBJGDKNdH5p0o1GIqbNCDqq+4Ny4csnYpzZPYjkfT5xOXLyhkvpF8EgK3GN5o4HMclEe2rhQVr1jQ==",
+      "path": "autofixture.automoq/4.18.1",
+      "hashPath": "autofixture.automoq.4.18.1.nupkg.sha512"
+    },
+    "AutoFixture.Xunit2/4.18.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I5Cwv1bvWb0lf2x2zO42bBQ2WaGudBh7tVBCzKIf8KmRJG+hmYY7ku3znnFZDVxbQaihNaqNkztLTwK4PwaoWg==",
+      "path": "autofixture.xunit2/4.18.1",
+      "hashPath": "autofixture.xunit2.4.18.1.nupkg.sha512"
     },
     "AutoMapper/13.0.1": {
       "type": "package",

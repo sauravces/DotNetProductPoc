@@ -133,3 +133,5 @@ C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debu
 C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
 C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debug\net8.0\ProductPOC.dll
 C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debug\net8.0\ProductPOC.pdb
+C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debug\net8.0\AutoFixture.AutoMoq.dll
+C:\Users\sauravbalasaheb.chou\source\repos\DotNetProductPOC\ProductTest\bin\Debug\net8.0\AutoFixture.Xunit2.dll

@@ -19,6 +19,40 @@
           }
         }
       },
+      "AutoFixture.AutoMoq/4.18.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoFixture": "4.18.1",
+          "Moq": "[4.7.0, 5.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoFixture.AutoMoq.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoFixture.AutoMoq.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "AutoFixture.Xunit2/4.18.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoFixture": "4.18.1",
+          "xunit.extensibility.core": "[2.2.0, 3.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoFixture.Xunit2.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoFixture.Xunit2.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "AutoMapper/13.0.1": {
         "type": "package",
         "dependencies": {
@@ -2360,6 +2394,48 @@
         "lib/netstandard2.0/AutoFixture.dll",
         "lib/netstandard2.0/AutoFixture.pdb",
         "lib/netstandard2.0/AutoFixture.xml"
+      ]
+    },
+    "AutoFixture.AutoMoq/4.18.1": {
+      "sha512": "5mG4BdhamHBJGDKNdH5p0o1GIqbNCDqq+4Ny4csnYpzZPYjkfT5xOXLyhkvpF8EgK3GN5o4HMclEe2rhQVr1jQ==",
+      "type": "package",
+      "path": "autofixture.automoq/4.18.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofixture.automoq.4.18.1.nupkg.sha512",
+        "autofixture.automoq.nuspec",
+        "icon.png",
+        "lib/net452/AutoFixture.AutoMoq.dll",
+        "lib/net452/AutoFixture.AutoMoq.pdb",
+        "lib/net452/AutoFixture.AutoMoq.xml",
+        "lib/netstandard1.5/AutoFixture.AutoMoq.dll",
+        "lib/netstandard1.5/AutoFixture.AutoMoq.pdb",
+        "lib/netstandard1.5/AutoFixture.AutoMoq.xml",
+        "lib/netstandard2.0/AutoFixture.AutoMoq.dll",
+        "lib/netstandard2.0/AutoFixture.AutoMoq.pdb",
+        "lib/netstandard2.0/AutoFixture.AutoMoq.xml"
+      ]
+    },
+    "AutoFixture.Xunit2/4.18.1": {
+      "sha512": "I5Cwv1bvWb0lf2x2zO42bBQ2WaGudBh7tVBCzKIf8KmRJG+hmYY7ku3znnFZDVxbQaihNaqNkztLTwK4PwaoWg==",
+      "type": "package",
+      "path": "autofixture.xunit2/4.18.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofixture.xunit2.4.18.1.nupkg.sha512",
+        "autofixture.xunit2.nuspec",
+        "icon.png",
+        "lib/net452/AutoFixture.Xunit2.dll",
+        "lib/net452/AutoFixture.Xunit2.pdb",
+        "lib/net452/AutoFixture.Xunit2.xml",
+        "lib/netstandard1.5/AutoFixture.Xunit2.dll",
+        "lib/netstandard1.5/AutoFixture.Xunit2.pdb",
+        "lib/netstandard1.5/AutoFixture.Xunit2.xml",
+        "lib/netstandard2.0/AutoFixture.Xunit2.dll",
+        "lib/netstandard2.0/AutoFixture.Xunit2.pdb",
+        "lib/netstandard2.0/AutoFixture.Xunit2.xml"
       ]
     },
     "AutoMapper/13.0.1": {
@@ -7359,6 +7435,8 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "AutoFixture >= 4.18.1",
+      "AutoFixture.AutoMoq >= 4.18.1",
+      "AutoFixture.Xunit2 >= 4.18.1",
       "FluentAssertions >= 6.12.0",
       "FluentValidation >= 11.9.1",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
@@ -7424,6 +7502,14 @@
         "targetAlias": "net8.0",
         "dependencies": {
           "AutoFixture": {
+            "target": "Package",
+            "version": "[4.18.1, )"
+          },
+          "AutoFixture.AutoMoq": {
+            "target": "Package",
+            "version": "[4.18.1, )"
+          },
+          "AutoFixture.Xunit2": {
             "target": "Package",
             "version": "[4.18.1, )"
           },

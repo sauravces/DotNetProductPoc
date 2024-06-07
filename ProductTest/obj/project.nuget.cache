@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "TnDG0XFx0Pk=",
+  "dgSpecHash": "ys+Pm4B84cE=",
   "success": true,
   "projectFilePath": "C:\\Users\\sauravbalasaheb.chou\\source\\repos\\DotNetProductPOC\\ProductTest\\ProductTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\autofixture\\4.18.1\\autofixture.4.18.1.nupkg.sha512",
+    "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\autofixture.automoq\\4.18.1\\autofixture.automoq.4.18.1.nupkg.sha512",
+    "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\autofixture.xunit2\\4.18.1\\autofixture.xunit2.4.18.1.nupkg.sha512",
     "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\sauravbalasaheb.chou\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

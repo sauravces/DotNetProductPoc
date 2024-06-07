@@ -9,15 +9,11 @@
             _productRepositoryMock = new Mock<IProductRepository>();
             _productService = new ProductService(_productRepositoryMock.Object);
         }
-        [Fact]
-        public async Task GetAllProductsAsyncReturnsAllProductsFromRepository()
+
+        [Theory,AutoData]
+        public async Task GetAllProducts_ReturnsAllProducts_FromRepository(List<Product> products)
         {
             // Arrange
-            var products = new List<Product>
-            {
-                new Product { Id =Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 10 },
-                new Product { Id =Guid.NewGuid(), Name = "Product2", Description = "Description2", Price = 20 }
-            };
             _productRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(products);
             // Act
             var result = await _productService.GetAllProductsAsync();
@@ -25,12 +21,10 @@
             result.Should().BeEquivalentTo(products);
         }
 
-        [Fact]
-        public async Task GetByIdProductAsyncReturnsProductFromRepository()
+        [Theory,AutoData]
+        public async Task GetByIdProduct_ReturnsProduct_FromRepository(Guid productId, Product products)
         {
             // Arrange
-            var productId = Guid.NewGuid();
-            var products = new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 10 };
             _productRepositoryMock.Setup(x => x.GetByIdAsync(productId)).ReturnsAsync(products);
             // Act
             var result = await _productService.GetByIdProductAsync(productId);
@@ -38,11 +32,10 @@
             result.Should().BeEquivalentTo(products);
         }
 
-        [Fact]
-        public async Task CreateProductAsync_ShouldReturnCreatedProduct()
+        [Theory, AutoData]
+        public async Task CreateProduct_ShouldReturn_CreatedProduct(Product product)
         {
             // Arrange
-            var product = new Product { Id = Guid.NewGuid(), Name = "Product1", Description = "Description1", Price = 10 };
             _productRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Product>()))
                                   .ReturnsAsync(product);
             // Act
@@ -52,18 +45,10 @@
             _productRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Product>()), Times.Once);
         }
 
-        [Fact]
-        public async Task UpdateProductAsync_ShouldReturnUpdatedProduct()
+        [Theory, AutoData]
+        public async Task UpdateProduct_ShouldReturn_UpdatedProduct(Guid productId, Product product, Product existingProduct)
         {
             // Arrange
-            var productId = Guid.NewGuid();
-            var product = new Product
-            {
-                Id = productId,
-                Name = "UpdatedProduct",
-                Description = "UpdatedDescription",
-                Price = 20
-            };
             _productRepositoryMock.Setup(repo => repo.UpdateAsync(productId, It.IsAny<Product>()))
                                   .ReturnsAsync(product);
             // Act
