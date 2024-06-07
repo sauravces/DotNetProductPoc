@@ -9,3 +9,6 @@ global using AutoMapper;
 global using MongoDB.Driver;
 global using ProductPOC.DbContext;
 global using ProductPOC.Repository;
+global using AutoFixture;
+global using AutoFixture.Xunit2;
+global using AutoFixture.AutoMoq;
