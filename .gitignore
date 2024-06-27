@@ -2,3 +2,10 @@
 *.log
 node_modules/
 .env
+*.dll
+*.json
+secrets.json
+*.pdb
+*.cache
+*.exe
+
