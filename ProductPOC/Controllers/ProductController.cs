@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ProductPOC.Dto;
 using ProductPOC.Models;
@@ -8,6 +9,7 @@ namespace ProductPOC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
